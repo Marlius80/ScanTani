@@ -1,6 +1,17 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiClient: GoogleGenAI | null = null;
+
+function getAIClient() {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("Kunci API Gemini (GEMINI_API_KEY) belum diatur di environment variables Netlify.");
+    }
+    aiClient = new GoogleGenAI({ apiKey });
+  }
+  return aiClient;
+}
 
 export interface PlantAnalysis {
   plantName: string;
@@ -40,6 +51,7 @@ export async function analyzePlantImage(base64Image: string): Promise<PlantAnaly
     },
   };
 
+  const ai = getAIClient();
   const response: GenerateContentResponse = await ai.models.generateContent({
     model,
     contents: [{ parts: [{ text: prompt }, imagePart] }],
