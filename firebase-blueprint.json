@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user profile information and preferences.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string", "format": "uri" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastLogin": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "ScanResult": {
+      "title": "Plant Scan Result",
+      "description": "Stores the results of a plant disease scan.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "plantName": { "type": "string" },
+        "diseaseName": { "type": "string" },
+        "severity": { "type": "number", "description": "Percentage 0-100" },
+        "description": { "type": "string" },
+        "recommendations": {
+          "type": "object",
+          "properties": {
+            "organic": { "type": "string" },
+            "chemical": { "type": "string" }
+          }
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" }
+          }
+        },
+        "isBookmarked": { "type": "boolean" }
+      },
+      "required": ["userId", "imageUrl", "plantName", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/scans/{scanId}": {
+      "schema": "ScanResult",
+      "description": "Individual scan record"
+    }
+  }
+}

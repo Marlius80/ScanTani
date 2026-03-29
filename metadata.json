@@ -1,0 +1,8 @@
+{
+  "name": "ScanTani AI",
+  "description": "Aplikasi AI canggih untuk deteksi penyakit tanaman secara real-time menggunakan kamera, dilengkapi dengan riwayat scan dan rekomendasi penanganan.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
